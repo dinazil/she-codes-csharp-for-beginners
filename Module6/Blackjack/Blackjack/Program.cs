@@ -12,6 +12,7 @@ namespace Blackjack
         {
             TestCardClass();
             TestDeckClass();
+            TestGameClass();
         }
 
         static void TestCardClass()
@@ -32,6 +33,43 @@ namespace Blackjack
             for (int i = 0; i < 52; ++i)
             {
                 Console.WriteLine(deck.DrawCard().GetFace());
+            }
+        }
+        private static void TestGameClass()
+        {
+            Game game = new Game();
+            game.ComputerMove();
+            PrintStatus(game);
+            game.UserMove();
+            PrintStatus(game);
+            game.ComputerMove();
+            PrintStatus(game);
+            game.UserMove();
+            PrintStatus(game);
+            game.ComputerMove();
+            PrintStatus(game);
+            game.UserMove();
+            PrintStatus(game);
+            game.ComputerMove();
+            PrintStatus(game);
+            game.ComputerMove();
+            PrintStatus(game);
+        }
+
+        private static void PrintStatus(Game game)
+        {
+            Console.Write("Game status - You: {0}, Computer: {1} ", game.UserScore, game.ComputerScore);
+            if (game.ComputerWon)
+            {
+                Console.WriteLine("Computer won :-(");
+            }
+            else if (game.UserWon)
+            {
+                Console.WriteLine("You won :-))))");
+            }
+            else
+            {
+                Console.WriteLine();
             }
         }
     }
