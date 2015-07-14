@@ -28,7 +28,7 @@ namespace Blackjack
 
         public Card(string suit, string rank)
         {
-            if (!_validSuits.Contains(suit) || _validRanks.Contains(rank))
+            if (!_validSuits.Contains(suit) || !_validRanks.Contains(rank))
             {
                 Console.WriteLine("The card details are invalid!");
                 Environment.Exit(1);
