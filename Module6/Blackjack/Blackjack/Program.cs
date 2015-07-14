@@ -16,13 +16,13 @@ namespace Blackjack
         static void TestCardClass()
         {
             Card aceOfSpades = new Card("Spades", "Ace");
-            Console.WriteLine(aceOfSpades.GetFace());
+            Console.WriteLine(aceOfSpades.GetFace() + " " + aceOfSpades.GetValue());
 
             Card sevenOfHearts = new Card("Hearts", "7");
-            Console.WriteLine(sevenOfHearts.GetFace());
+            Console.WriteLine(sevenOfHearts.GetFace() + " " + sevenOfHearts.GetValue());
 
             Card jackOfDiamonds = new Card("Diamonds", "Jack");
-            Console.WriteLine(jackOfDiamonds.GetFace());
+            Console.WriteLine(jackOfDiamonds.GetFace() + " " + jackOfDiamonds.GetValue());
         }
     }
 }
