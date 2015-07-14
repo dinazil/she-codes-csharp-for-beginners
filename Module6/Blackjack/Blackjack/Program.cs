@@ -11,6 +11,7 @@ namespace Blackjack
         static void Main(string[] args)
         {
             TestCardClass();
+            TestDeckClass();
         }
 
         static void TestCardClass()
@@ -23,6 +24,15 @@ namespace Blackjack
 
             Card jackOfDiamonds = new Card("Diamonds", "Jack");
             Console.WriteLine(jackOfDiamonds.GetFace() + " " + jackOfDiamonds.GetValue());
+        }
+
+        static void TestDeckClass()
+        {
+            Deck deck = new Deck();
+            for (int i = 0; i < 52; ++i)
+            {
+                Console.WriteLine(deck.DrawCard().GetFace());
+            }
         }
     }
 }

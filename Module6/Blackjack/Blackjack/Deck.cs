@@ -35,9 +35,9 @@ namespace Blackjack
                 randomNumber = RandomGenerator.Next(0, 52);
             }
 
-            Card result = Cards[randomNumber];
+            Card drawnCard = Cards[randomNumber];
             Cards[randomNumber] = null;
-            return result;
+            return drawnCard;
         }
     }
 }
