@@ -10,9 +10,42 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            TestCardClass();
-            TestDeckClass();
-            TestGameClass();
+            Game game = new Game();
+
+            game.ComputerMove();
+            game.ComputerMove();
+            if (PrintStatusAndReturnWhetherGameHasEnded(game))
+                return;
+
+            game.UserMove();
+            game.UserMove();
+            if (PrintStatusAndReturnWhetherGameHasEnded(game))
+                return;
+
+            while (true)
+            {
+                Console.Write("Would you like to draw another card? (Y/N) ");
+                string input = Console.ReadLine();
+                if (input == "Y")
+                {
+                    game.UserMove();
+                    if (PrintStatusAndReturnWhetherGameHasEnded(game))
+                        return;
+                }
+
+                if (game.ComputerScore > game.UserScore)
+                {
+                    Console.WriteLine("Computer won :-(");
+                    return;
+                }
+                game.ComputerMove();
+                if (PrintStatusAndReturnWhetherGameHasEnded(game))
+                    return;
+            }
+
+            //TestCardClass();
+            //TestDeckClass();
+            //TestGameClass();
         }
 
         static void TestCardClass()
@@ -39,38 +72,36 @@ namespace Blackjack
         {
             Game game = new Game();
             game.ComputerMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.UserMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.ComputerMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.UserMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.ComputerMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.UserMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.ComputerMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
             game.ComputerMove();
-            PrintStatus(game);
+            PrintStatusAndReturnWhetherGameHasEnded(game);
         }
 
-        private static void PrintStatus(Game game)
+        private static bool PrintStatusAndReturnWhetherGameHasEnded(Game game)
         {
-            Console.Write("Game status - You: {0}, Computer: {1} ", game.UserScore, game.ComputerScore);
             if (game.ComputerWon)
             {
                 Console.WriteLine("Computer won :-(");
+                return true;
             }
             else if (game.UserWon)
             {
                 Console.WriteLine("You won :-))))");
+                return true;
             }
-            else
-            {
-                Console.WriteLine();
-            }
+            return false;
         }
     }
 }
