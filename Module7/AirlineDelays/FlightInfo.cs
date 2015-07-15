@@ -28,6 +28,12 @@ namespace AirlineDelays
             Distance = int.Parse(fields[6]);
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0} flight from {1} to {2} ({3} miles) departure delay {4} arrival delay {5}",
+                Airline, Origin, Destination, Distance, DepartureDelay, ArrivalDelay);
+        }
+
         public static List<FlightInfo> ReadFlightsFromFile(string fileName)
         {
             List<FlightInfo> flights = new List<FlightInfo>();
