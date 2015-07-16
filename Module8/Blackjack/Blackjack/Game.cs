@@ -23,11 +23,10 @@ namespace Blackjack
             Deck = new Deck();
         }
 
-        public void ComputerMove()
+        public Card ComputerMove()
         {
             Card card = Deck.DrawCard();
             ComputerScore += card.GetValue();
-            Console.WriteLine("Computer drew " + card.GetFace() + ", and has " + ComputerScore + " points now.");
             if (ComputerScore == 21)
             {
                 ComputerWon = true;
@@ -36,12 +35,12 @@ namespace Blackjack
             {
                 UserWon = true;
             }
+            return card;
         }
-        public void UserMove()
+        public Card UserMove()
         {
             Card card = Deck.DrawCard();
             UserScore += card.GetValue();
-            Console.WriteLine("You drew " + card.GetFace() + ", and have " + UserScore + " points now.");
             if (UserScore == 21)
             {
                 UserWon = true;
@@ -50,6 +49,7 @@ namespace Blackjack
             {
                 ComputerWon = true;
             }
+            return card;
         }
     }
 }
