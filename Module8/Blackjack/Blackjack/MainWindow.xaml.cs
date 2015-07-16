@@ -21,11 +21,16 @@ namespace Blackjack
     public partial class MainWindow : Window
     {
         private Game game;
+        enum GameStatus
+        {
+            Continue,
+            Exit,
+            Restart
+        }
         public MainWindow()
         {
             InitializeComponent();
         }
-
         private string GetImageFileNameForCard(Card card)
         {
             int col = -1;
@@ -58,73 +63,87 @@ namespace Blackjack
 
             return "Images/" + (row * 4 + col + 1).ToString() + ".png";
         }
-
         private Image GetImageForCard(Card card)
         {
             Image image = new Image();
             image.Source = new BitmapImage(new Uri(GetImageFileNameForCard(card), UriKind.Relative));
             return image;
         }
-
         private void StartGame()
+        {
+            ClearTheBoard();
+
+            game = new Game();
+
+            ComputerMove();
+            ComputerMove();
+
+            switch (CheckGameStatus())
+            {
+                case GameStatus.Exit:
+                    Environment.Exit(0);
+                    break;
+                case GameStatus.Restart:
+                    ClearTheBoard();
+                    return;
+            }
+
+            MyMove();
+            MyMove();
+
+            switch (CheckGameStatus())
+            {
+                case GameStatus.Exit:
+                    Environment.Exit(0);
+                    break;
+                case GameStatus.Restart:
+                    ClearTheBoard();
+                    return;
+            }
+        }
+        private void ClearTheBoard()
         {
             ComputerCards.Children.Clear();
             MyCards.Children.Clear();
             ComputerScore.Content = 0;
             MyScore.Content = 0;
-
-            game = new Game();
-
-            ComputerMove(); // can't lose from a single card
-            if (ComputerMove()) // this means the computer didn't lose
-            {
-                MyMove(); // can't lose from a single card
-                MyMove(); // if we lose here there will be a notification anyway
-            }
         }
-
-        private bool ComputerMove()
+        private void ComputerMove()
         {
             ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
-            ComputerScore.Content = game.ComputerScore;
-
-            return CheckGameStatusAndRestartIfNeeded();
+            ComputerScore.Content = game.ComputerScore;           
         }
-        private bool MyMove()
+        private void MyMove()
         {
             MyCards.Children.Add(GetImageForCard(game.UserMove()));
             MyScore.Content = game.UserScore;
-            
-            return CheckGameStatusAndRestartIfNeeded();
         }
-        private bool CheckGameStatusAndRestartIfNeeded()
+        private GameStatus CheckGameStatus()
         {
             string message = null;
             if (game.ComputerWon)
             {
-                message = "Computer won :-(\nDo you want to restart?";
-                
+                message = "Computer won :-(\nDo you want to continue playing?";
             }
             else if (game.UserWon)
             {
-                message = "You won :-))))\nDo you want to restart?";
+                message = "You won :-))))\nDo you want to continue playing?";
             }
 
             if (message != null)
             {
                 MessageBoxResult userAnswer = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
-                if (userAnswer == MessageBoxResult.Yes)
+                if (userAnswer == MessageBoxResult.No)
                 {
-                    StartGame();
-                    return false;
+                    return GameStatus.Exit;
                 }
                 else
                 {
-                    Environment.Exit(0);
+                    return GameStatus.Restart;
                 }
             }
 
-            return true;
+            return GameStatus.Continue;
         }
 
         private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
