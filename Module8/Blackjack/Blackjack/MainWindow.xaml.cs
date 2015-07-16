@@ -70,6 +70,8 @@ namespace Blackjack
         {
             ComputerCards.Children.Clear();
             MyCards.Children.Clear();
+            ComputerScore.Content = 0;
+            MyScore.Content = 0;
 
             game = new Game();
 
