@@ -20,11 +20,12 @@ namespace Blackjack
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Deck deck;
         public MainWindow()
         {
             InitializeComponent();
 
-            string name;
+            StartGame();
         }
 
         private string GetImageFileNameForCard(Card card)
@@ -58,6 +59,24 @@ namespace Blackjack
             }
 
             return "Images/" + (row * 4 + col + 1).ToString() + ".png";
+        }
+
+        private Image GetImageForCard(Card card)
+        {
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(GetImageFileNameForCard(card), UriKind.Relative));
+            return image;
+        }
+
+        private void StartGame()
+        {
+            deck = new Deck();
+
+            ComputerCards.Children.Add(GetImageForCard(deck.DrawCard()));
+            ComputerCards.Children.Add(GetImageForCard(deck.DrawCard()));
+
+            MyCards.Children.Add(GetImageForCard(deck.DrawCard()));
+            MyCards.Children.Add(GetImageForCard(deck.DrawCard()));
         }
     }
 }
