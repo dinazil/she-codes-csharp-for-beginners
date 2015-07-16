@@ -10,21 +10,6 @@ namespace AirlineDelays
 {
     class Program
     {
-        static void PrintQueryResults(object query)
-        {
-            if (query is IEnumerable)
-            {
-                foreach (var row in (IEnumerable)query)
-                {
-                    Console.WriteLine(row);
-                }
-            }
-            else
-            {
-                Console.WriteLine(query);
-            }
-        }
-
         static void Main(string[] args)
         {
             List<FlightInfo> flights = FlightInfo.ReadFlightsFromFile(@"C:\Users\Sasha\Downloads\airline-on-time-performance-sep2014-us.csv");
@@ -109,10 +94,6 @@ namespace AirlineDelays
                            orderby averageTotalDelay ascending
                            select g.Key
                           ).Take(1);
-
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            PrintQueryResults(query13);
-            Console.WriteLine(sw.Elapsed);
         }
     }
 }
