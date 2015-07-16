@@ -82,11 +82,13 @@ namespace Blackjack
         private void ComputerMove()
         {
             ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
+            ComputerScore.Content = game.ComputerScore;
         }
 
         private void MyMove()
         {
             MyCards.Children.Add(GetImageForCard(game.UserMove()));
+            MyScore.Content = game.UserScore;
         }
     }
 }

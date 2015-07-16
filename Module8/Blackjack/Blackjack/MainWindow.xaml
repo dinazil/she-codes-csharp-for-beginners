@@ -3,11 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <StackPanel>
-        <StackPanel Name="ComputerCards" Orientation="Horizontal" Height="100"></StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <Label>Computer Score:</Label>
+                <Label Name="ComputerScore"></Label>
+            </StackPanel>
+            <StackPanel Name="ComputerCards" Orientation="Horizontal" Height="100"></StackPanel>
+        </StackPanel>
         <StackPanel>
             <Button HorizontalAlignment="Center">I'm Done!</Button>
             <Button HorizontalAlignment="Center">Hit Me!</Button>
         </StackPanel>
-        <StackPanel Name="MyCards" Orientation="Horizontal" Height="100"></StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <Label>My Score:</Label>
+                <Label Name="MyScore"></Label>
+            </StackPanel>
+            <StackPanel Name="MyCards" Orientation="Horizontal" Height="100"></StackPanel>
+        </StackPanel>
     </StackPanel>
 </Window>
