@@ -1,0 +1,13 @@
+﻿<Window x:Class="PracticeQuestions.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525"
+        FontSize="16">
+    <Grid>
+        <TextBox x:Name="username" HorizontalAlignment="Left" Height="25" Margin="26,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="456"/>
+        <PasswordBox x:Name="password" HorizontalAlignment="Left" Margin="26,60,0,0" VerticalAlignment="Top" Width="456"/>
+        <Button Content="Greet me" HorizontalAlignment="Left" Margin="230,100,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label x:Name="greeting" Content="" HorizontalAlignment="Left" Margin="26,153,0,0" VerticalAlignment="Top" Width="456"/>
+
+    </Grid>
+</Window>
