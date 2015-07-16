@@ -20,7 +20,7 @@ namespace Blackjack
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Deck deck;
+        private Game game;
         public MainWindow()
         {
             InitializeComponent();
@@ -70,13 +70,23 @@ namespace Blackjack
 
         private void StartGame()
         {
-            deck = new Deck();
+            game = new Game();
 
-            ComputerCards.Children.Add(GetImageForCard(deck.DrawCard()));
-            ComputerCards.Children.Add(GetImageForCard(deck.DrawCard()));
+            ComputerMove();
+            ComputerMove();
 
-            MyCards.Children.Add(GetImageForCard(deck.DrawCard()));
-            MyCards.Children.Add(GetImageForCard(deck.DrawCard()));
+            MyMove();
+            MyMove();
+        }
+
+        private void ComputerMove()
+        {
+            ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
+        }
+
+        private void MyMove()
+        {
+            MyCards.Children.Add(GetImageForCard(game.UserMove()));
         }
     }
 }
