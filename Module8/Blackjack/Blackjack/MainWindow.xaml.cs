@@ -24,8 +24,6 @@ namespace Blackjack
         public MainWindow()
         {
             InitializeComponent();
-
-            StartGame();
         }
 
         private string GetImageFileNameForCard(Card card)
@@ -126,6 +124,11 @@ namespace Blackjack
         private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
         {
             MyMove();
+        }
+
+        private void ButtonRestart_Click(object sender, RoutedEventArgs e)
+        {
+            StartGame();
         }
     }
 }
