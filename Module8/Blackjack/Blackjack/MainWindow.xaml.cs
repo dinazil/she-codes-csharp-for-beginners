@@ -75,28 +75,29 @@ namespace Blackjack
 
             game = new Game();
 
-            ComputerMove();
-            ComputerMove();
-
-            MyMove();
-            MyMove();
+            ComputerMove(); // can't lose from a single card
+            if (ComputerMove()) // this means the computer didn't lose
+            {
+                MyMove(); // can't lose from a single card
+                MyMove(); // if we lose here there will be a notification anyway
+            }
         }
 
-        private void ComputerMove()
+        private bool ComputerMove()
         {
             ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
             ComputerScore.Content = game.ComputerScore;
 
-            CheckGameStatusAndRestartIfNeeded();
+            return CheckGameStatusAndRestartIfNeeded();
         }
-        private void MyMove()
+        private bool MyMove()
         {
             MyCards.Children.Add(GetImageForCard(game.UserMove()));
             MyScore.Content = game.UserScore;
             
-            CheckGameStatusAndRestartIfNeeded();
+            return CheckGameStatusAndRestartIfNeeded();
         }
-        private void CheckGameStatusAndRestartIfNeeded()
+        private bool CheckGameStatusAndRestartIfNeeded()
         {
             string message = null;
             if (game.ComputerWon)
@@ -115,12 +116,15 @@ namespace Blackjack
                 if (userAnswer == MessageBoxResult.Yes)
                 {
                     StartGame();
+                    return false;
                 }
                 else
                 {
                     Environment.Exit(0);
                 }
             }
+
+            return true;
         }
 
         private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
