@@ -1,7 +1,8 @@
 ﻿<Window x:Class="Blackjack.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        Loaded="Window_Loaded">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <StackPanel>
@@ -12,7 +13,7 @@
         </StackPanel>
         <StackPanel>
             <Button HorizontalAlignment="Center">I'm Done!</Button>
-            <Button HorizontalAlignment="Center">Hit Me!</Button>
+            <Button Click="ButtonHitMe_Click" HorizontalAlignment="Center">Hit Me!</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <StackPanel>

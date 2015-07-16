@@ -70,6 +70,9 @@ namespace Blackjack
 
         private void StartGame()
         {
+            ComputerCards.Children.Clear();
+            MyCards.Children.Clear();
+
             game = new Game();
 
             ComputerMove();
@@ -83,12 +86,46 @@ namespace Blackjack
         {
             ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
             ComputerScore.Content = game.ComputerScore;
-        }
 
+            CheckGameStatusAndRestartIfNeeded();
+        }
         private void MyMove()
         {
             MyCards.Children.Add(GetImageForCard(game.UserMove()));
             MyScore.Content = game.UserScore;
+            
+            CheckGameStatusAndRestartIfNeeded();
+        }
+        private void CheckGameStatusAndRestartIfNeeded()
+        {
+            string message = null;
+            if (game.ComputerWon)
+            {
+                message = "Computer won :-(\nDo you want to restart?";
+                
+            }
+            else if (game.UserWon)
+            {
+                message = "You won :-))))\nDo you want to restart?";
+            }
+
+            if (message != null)
+            {
+                MessageBoxResult userAnswer = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
+                if (userAnswer == MessageBoxResult.Yes)
+                {
+                    StartGame();
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
+
+        private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
+        {
+            MyMove();
         }
     }
 }
