@@ -105,13 +105,13 @@ namespace Blackjack
         {
             ComputerCards.Children.Clear();
             MyCards.Children.Clear();
-            ComputerScore.Content = 0;
-            MyScore.Content = 0;
+            ComputerScore.Content = "";
+            MyScore.Content = "";
         }
         private void ComputerMove()
         {
             ComputerCards.Children.Add(GetImageForCard(_game.ComputerMove()));
-            ComputerScore.Content = _game.ComputerScore;           
+            ComputerScore.Content = _game.ComputerScore;  
         }
         private void MyMove()
         {
@@ -149,11 +149,52 @@ namespace Blackjack
         private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
         {
             MyMove();
+
+            switch (CheckGameStatus())
+            {
+                case GameStatus.Exit:
+                    Environment.Exit(0);
+                    break;
+                case GameStatus.Restart:
+                    ClearTheBoard();
+                    return;
+            }
+
+            ComputerMove();
+
+            switch (CheckGameStatus())
+            {
+                case GameStatus.Exit:
+                    Environment.Exit(0);
+                    break;
+                case GameStatus.Restart:
+                    ClearTheBoard();
+                    return;
+            }
         }
 
         private void ButtonRestart_Click(object sender, RoutedEventArgs e)
         {
             StartGame();
+        }
+
+        private void ButtonPass_Click(object sender, RoutedEventArgs e)
+        {
+            if (_game.ComputerScore > _game.UserScore)
+            {
+                return; // if the computer has more points then it passes its turn
+            }
+            ComputerMove();
+
+            switch (CheckGameStatus())
+            {
+                case GameStatus.Exit:
+                    Environment.Exit(0);
+                    break;
+                case GameStatus.Restart:
+                    ClearTheBoard();
+                    return;
+            }
         }
     }
 }
