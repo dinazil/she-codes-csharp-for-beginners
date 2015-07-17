@@ -108,18 +108,18 @@ namespace Blackjack
         {
             ComputerCards.Children.Clear();
             MyCards.Children.Clear();
-            ComputerScore.Content = "";
-            MyScore.Content = "";
+            ComputerScore.Text = null;
+            MyScore.Text = null;
         }
         private void ComputerMove()
         {
             ComputerCards.Children.Add(GetImageForCard(_game.ComputerMove()));
-            ComputerScore.Content = _game.ComputerScore;  
+            ComputerScore.Text = _game.ComputerScore.ToString();  
         }
         private void MyMove()
         {
             MyCards.Children.Add(GetImageForCard(_game.UserMove()));
-            MyScore.Content = _game.UserScore;
+            MyScore.Text = _game.UserScore.ToString();
         }
         private GameStatus CheckGameStatus()
         {
