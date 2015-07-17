@@ -20,6 +20,8 @@ namespace Blackjack
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string UserWonMessage = "You won :-))))\nDo you want to continue playing?";
+        private string ComputerWonMessage = "Computer won :-(\nDo you want to continue playing?";
         private Game _game;
         enum GameStatus
         {
@@ -123,29 +125,32 @@ namespace Blackjack
             string message = null;
             if (_game.ComputerWon)
             {
-                message = "Computer won :-(\nDo you want to continue playing?";
+                message = ComputerWonMessage;
             }
             else if (_game.UserWon)
             {
-                message = "You won :-))))\nDo you want to continue playing?";
+                message = UserWonMessage;
             }
 
             if (message != null)
             {
-                MessageBoxResult userAnswer = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
-                if (userAnswer == MessageBoxResult.No)
-                {
-                    return GameStatus.Exit;
-                }
-                else
-                {
-                    return GameStatus.Restart;
-                }
+                return DisplayGameOverMessage(message);
             }
 
             return GameStatus.Continue;
         }
-
+        private static GameStatus DisplayGameOverMessage(string message)
+        {
+            MessageBoxResult userAnswer = MessageBox.Show(message, "Game Over", MessageBoxButton.YesNo);
+            if (userAnswer == MessageBoxResult.No)
+            {
+                return GameStatus.Exit;
+            }
+            else
+            {
+                return GameStatus.Restart;
+            }
+        }
         private void ButtonHitMe_Click(object sender, RoutedEventArgs e)
         {
             MyMove();
@@ -182,9 +187,20 @@ namespace Blackjack
         {
             if (_game.ComputerScore > _game.UserScore)
             {
-                return; // if the computer has more points then it passes its turn
+                switch (DisplayGameOverMessage(ComputerWonMessage))
+                {
+                    case GameStatus.Exit:
+                        Environment.Exit(0);
+                        break;
+                    case GameStatus.Restart:
+                        ClearTheBoard();
+                        return;
+                }
             }
-            ComputerMove();
+            else
+            {
+                ComputerMove();
+            }
 
             switch (CheckGameStatus())
             {
