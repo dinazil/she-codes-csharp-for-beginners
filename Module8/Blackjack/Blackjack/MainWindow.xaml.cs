@@ -20,7 +20,7 @@ namespace Blackjack
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Game game;
+        private Game _game;
         enum GameStatus
         {
             Continue,
@@ -73,7 +73,7 @@ namespace Blackjack
         {
             ClearTheBoard();
 
-            game = new Game();
+            _game = new Game();
 
             ComputerMove();
             ComputerMove();
@@ -110,22 +110,22 @@ namespace Blackjack
         }
         private void ComputerMove()
         {
-            ComputerCards.Children.Add(GetImageForCard(game.ComputerMove()));
-            ComputerScore.Content = game.ComputerScore;           
+            ComputerCards.Children.Add(GetImageForCard(_game.ComputerMove()));
+            ComputerScore.Content = _game.ComputerScore;           
         }
         private void MyMove()
         {
-            MyCards.Children.Add(GetImageForCard(game.UserMove()));
-            MyScore.Content = game.UserScore;
+            MyCards.Children.Add(GetImageForCard(_game.UserMove()));
+            MyScore.Content = _game.UserScore;
         }
         private GameStatus CheckGameStatus()
         {
             string message = null;
-            if (game.ComputerWon)
+            if (_game.ComputerWon)
             {
                 message = "Computer won :-(\nDo you want to continue playing?";
             }
-            else if (game.UserWon)
+            else if (_game.UserWon)
             {
                 message = "You won :-))))\nDo you want to continue playing?";
             }
