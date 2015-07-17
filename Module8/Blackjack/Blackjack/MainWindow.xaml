@@ -4,7 +4,7 @@
         Title="MainWindow" Height="350" Width="525">
     <StackPanel Background="DarkGreen">
         <StackPanel Orientation="Horizontal">
-            <StackPanel>
+            <StackPanel Width="120">
                 <Label>Computer Score:</Label>
                 <Label Name="ComputerScore"></Label>
             </StackPanel>
@@ -16,7 +16,7 @@
             <Button Width="100" Margin="5" Click="ButtonHitMe_Click" HorizontalAlignment="Center">Hit Me!</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <StackPanel>
+            <StackPanel Width="120">
                 <Label>My Score:</Label>
                 <Label Name="MyScore"></Label>
             </StackPanel>

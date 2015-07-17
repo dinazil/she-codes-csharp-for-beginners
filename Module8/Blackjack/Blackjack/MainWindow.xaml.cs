@@ -68,6 +68,7 @@ namespace Blackjack
         private Image GetImageForCard(Card card)
         {
             Image image = new Image();
+            image.Margin = new Thickness(2);
             image.Source = new BitmapImage(new Uri(GetImageFileNameForCard(card), UriKind.Relative));
             return image;
         }
