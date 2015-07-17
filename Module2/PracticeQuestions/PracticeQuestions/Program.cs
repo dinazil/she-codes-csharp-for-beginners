@@ -15,7 +15,7 @@ namespace PracticeQuestions
 
             input = Console.ReadLine();
             int number = int.Parse(input);
-            Console.WriteLine(number * number);
+            Console.WriteLine(number + number);
         }
     }
 }
