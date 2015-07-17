@@ -26,7 +26,7 @@ namespace Blackjack
             {
                 Console.Write("Would you like to draw another card? (Y/N) ");
                 string input = Console.ReadLine();
-                if (input == "Y")
+                if (input == "Y" || input == "y")
                 {
                     game.UserMove();
                     if (PrintStatusAndReturnWhetherGameHasEnded(game))
