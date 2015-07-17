@@ -32,8 +32,7 @@ namespace Blackjack
                     if (PrintStatusAndReturnWhetherGameHasEnded(game))
                         return;
                 }
-
-                if (game.ComputerScore > game.UserScore)
+                else if (game.ComputerScore > game.UserScore)
                 {
                     Console.WriteLine("Computer won :-(");
                     return;
