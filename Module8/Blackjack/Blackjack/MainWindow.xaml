@@ -1,24 +1,24 @@
 ﻿<Window x:Class="Blackjack.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <StackPanel Background="DarkGreen">
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Width="120">
-                <TextBlock>Computer Score:</TextBlock>
-                <TextBlock Name="ComputerScore"></TextBlock>
+        Title="MainWindow" Height="350" Width="525" Background="DarkGreen" >
+    <StackPanel Margin="10">
+        <StackPanel Orientation="Horizontal" Margin="3">
+            <StackPanel Width="160">
+                <TextBlock FontSize="20" Foreground="Yellow">Computer Score:</TextBlock>
+                <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="Yellow" Name="ComputerScore"></TextBlock>
             </StackPanel>
             <StackPanel Name="ComputerCards" Orientation="Horizontal" Height="100"></StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="100" Margin="5" Click="ButtonRestart_Click" HorizontalAlignment="Center">Start New Game</Button>
-            <Button Width="100" Margin="5"  Click="ButtonPass_Click"  HorizontalAlignment="Center">Pass!</Button>
-            <Button Width="100" Margin="5" Click="ButtonHitMe_Click" HorizontalAlignment="Center">Hit Me!</Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="3">
+            <Button Width="150" Margin="5" FontSize="16" Click="ButtonRestart_Click" HorizontalAlignment="Center">Start New Game</Button>
+            <Button Width="150" Margin="5" FontSize="16" Click="ButtonPass_Click"  HorizontalAlignment="Center">Pass!</Button>
+            <Button Width="150" Margin="5" FontSize="16" Click="ButtonHitMe_Click" HorizontalAlignment="Center">Hit Me!</Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Width="120">
-                <TextBlock>My Score:</TextBlock>
-                <TextBlock Name="MyScore"></TextBlock>
+        <StackPanel Orientation="Horizontal" Margin="3">
+            <StackPanel Width="160">
+                <TextBlock FontSize="20" Foreground="Yellow">My Score:</TextBlock>
+                <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="Yellow" Name="MyScore"></TextBlock>
             </StackPanel>
             <StackPanel Name="MyCards" Orientation="Horizontal" Height="100"></StackPanel>
         </StackPanel>
