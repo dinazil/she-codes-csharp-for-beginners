@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using MoreLinq;
 
-namespace Module5
+namespace AirlineDelays
 {
     class Program
     {
-        static List<Airline> readAndFilterDataFromFile(string origin, string destination)
+        // Prints average and maximum delays for each airline on a specific route
+        static void PrintDelaysForEachAirline(string origin, string destination)
         {
             StreamReader myFile = new StreamReader("airline-on-time-performance-sep2014-us.csv");
 
             bool first = true;
             string line = "";
+            string airlineCodeOfCurrent = "";
+            int maxDelay = 0;
+            int totalArrivalDelay = 0;
+            int flightTotalForCurrentAirline = 0;
+            int avgArrivalDelay = 0;
             List<Airline> airlinesOnRoute = new List<Airline>();
 
             while ((line = myFile.ReadLine()) != null)
@@ -27,79 +33,13 @@ namespace Module5
                 if (parts.Length != 7) continue;
                 if (parts[1] == origin && parts[2] == destination)
                 {
-                    // Add data to the matching airlines on route list.
+                    // Add data to the list of matching airlines on route 
                     airlinesOnRoute.Add(new Airline(parts[0], int.Parse(parts[4])));
                 }
             }
-
             myFile.Close();
-            return airlinesOnRoute;
-        }
 
-        static List<Airport> createAndProcessAirportList()
-        {
-            StreamReader myFile = new StreamReader("airline-on-time-performance-sep2014-us.csv");
 
-            bool first = true;
-            string line = "";
-            List<Airport> airports = new List<Airport>();
-
-            while ((line = myFile.ReadLine()) != null)
-            {
-                if (first)
-                {
-                    first = false;
-                    continue;
-                }
-
-                string[] parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length != 7) continue;
-
-                Airport departureAirport = new Airport();
-                Airport arrivalAirport = new Airport();
-                departureAirport.AirportName = parts[1];
-                arrivalAirport.AirportName = parts[2];
-
-                // TODO Need to check if the object with the name exist, but the below does not work.
-                if (!airports.Exists(a => a.AirportName == departureAirport.AirportName)) airports.Add(departureAirport);
-                if (!airports.Exists(a => a.AirportName == arrivalAirport.AirportName)) airports.Add(arrivalAirport);
-
-                airports.Find(x => x.AirportName == departureAirport.AirportName).totalDepartureDelay += int.Parse(parts[3]);
-                airports.Find(x => x.AirportName == departureAirport.AirportName).departureFlightCount++;
-
-                airports.Find(x => x.AirportName == arrivalAirport.AirportName).totalArrivalDelay += int.Parse(parts[4]);
-                airports.Find(x => x.AirportName == arrivalAirport.AirportName).arrivalFlightCount++;
-
-            }
-
-            foreach (Airport item in airports)
-            {
-                item.calcAvgDepatureDelay();
-                item.calcAvgArrivalDelay();
-            }
-
-            myFile.Close();
-            return airports;
-        }
-
-        static void Main(string[] args)
-        {
-
-            string origin = "";
-            string destination = "";
-            int flightTotalForCurrentAirline = 0;
-            int avgArrivalDelay = 0;
-            int maxDelay = 0;
-            int totalArrivalDelay = 0;
-            string airlineCodeOfCurrent = "";
-            List<Airline> airlinesOnRoute = new List<Airline>();
-
-            Console.WriteLine("Please enter the origin airport:");
-            origin = Console.ReadLine();
-            Console.WriteLine("Please enter the destination airport:");
-            destination = Console.ReadLine();
-
-            airlinesOnRoute = readAndFilterDataFromFile(origin, destination);
             if (airlinesOnRoute.Count == 0) Console.WriteLine("There are no flights on this route.");
 
             Console.WriteLine("\nThere a total of {0} flights along this route.", airlinesOnRoute.Count);
@@ -118,7 +58,7 @@ namespace Module5
                 flightTotalForCurrentAirline++;
 
                 // If the index moves to the next airline or this was the last item in the list
-                // report the data related to the previous one and clear variables
+                // report the data related to the previous airline and clear variables
                 if (airlineCodeOfCurrent != item.airlineCode || item.Equals(airlinesOnRoute[airlinesOnRoute.Count - 1]))
                 {
                     if (flightTotalForCurrentAirline != 0) avgArrivalDelay = totalArrivalDelay / flightTotalForCurrentAirline;
@@ -131,23 +71,89 @@ namespace Module5
                     maxDelay = 0;
                     airlineCodeOfCurrent = item.airlineCode;
                 }
+            }            
+        }
+
+        
+        // Finds the worst airports to fly from and fly to
+        static void FindWorstAirports()
+        {
+            StreamReader myFile = new StreamReader("airline-on-time-performance-sep2014-us.csv");
+
+            bool first = true;
+            string line = "";
+            List<Airport> airports = new List<Airport>();
+
+            while ((line = myFile.ReadLine()) != null)
+            {
+                if (first)
+                {
+                    first = false;
+                    continue;
+                }
+
+                string[] parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 7) continue;
+
+                // Create and fill up a unique airport list with airport objects
+                // Set the total delay and flight count properties for each object
+                Airport departureAirport = new Airport();
+                Airport arrivalAirport = new Airport();
+                departureAirport.AirportName = parts[1];
+                arrivalAirport.AirportName = parts[2];
+                                
+                if (!airports.Exists(a => a.AirportName == departureAirport.AirportName)) airports.Add(departureAirport);
+                if (!airports.Exists(a => a.AirportName == arrivalAirport.AirportName)) airports.Add(arrivalAirport);
+
+                airports.Find(x => x.AirportName == departureAirport.AirportName).totalDepartureDelay += int.Parse(parts[3]);
+                airports.Find(x => x.AirportName == departureAirport.AirportName).departureFlightCount++;
+
+                airports.Find(x => x.AirportName == arrivalAirport.AirportName).totalArrivalDelay += int.Parse(parts[4]);
+                airports.Find(x => x.AirportName == arrivalAirport.AirportName).arrivalFlightCount++;
+
             }
 
-            List<Airport> readyAirportList = new List<Airport>();
-            readyAirportList = createAndProcessAirportList();
+            myFile.Close();
 
+            foreach (Airport item in airports)
+            {
+                item.calcAvgDepatureDelay();
+                item.calcAvgArrivalDelay();
+            }
+
+            
             Airport worstAirportToFlyFrom = new Airport();
             Airport worstAirportToFlyTo = new Airport();
 
-            worstAirportToFlyFrom = readyAirportList.MaxBy(a => a.avgDepartureDelay);
-            worstAirportToFlyTo = readyAirportList.MaxBy(a => a.avgArrivalDelay);
+            worstAirportToFlyFrom = airports.MaxBy(a => a.avgDepartureDelay);
+            worstAirportToFlyTo = airports.MaxBy(a => a.avgArrivalDelay);
 
             Console.WriteLine("The worst airport to fly from is {0} with an average departure delay of {1}.",
                 worstAirportToFlyFrom.AirportName, worstAirportToFlyFrom.avgDepartureDelay);
             Console.WriteLine("The worst airport to fly to is {0} with an average arrival delay of {1}.",
                 worstAirportToFlyTo.AirportName, worstAirportToFlyTo.avgArrivalDelay);
+
         }
 
+        static void Main(string[] args)
+        {
+
+            string origin = "";
+            string destination = "";                      
+
+            Console.WriteLine("Please enter the origin airport:");
+            origin = Console.ReadLine();
+            Console.WriteLine("Please enter the destination airport:");
+            destination = Console.ReadLine();
+
+            PrintDelaysForEachAirline(origin, destination);
+
+            FindWorstAirports();
+
+
+
+        }
+               
         class Airline
         {
             public string airlineCode { get; set; }
