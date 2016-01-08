@@ -148,9 +148,6 @@ namespace AirlineDelays
             PrintDelaysForEachAirline(origin, destination);
 
             FindWorstAirports();
-
-
-
         }
                
         class Airline
