@@ -137,7 +137,6 @@ namespace AirlineDelays
 
         static void Main(string[] args)
         {
-
             string origin = "";
             string destination = "";                      
 
