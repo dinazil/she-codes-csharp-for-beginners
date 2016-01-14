@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MoreLinq;
+using System.Linq;
 
 namespace AirlineDelays
 {
     class Program
     {
+
         // Prints average and maximum delays for each airline on a specific route
         static void PrintDelaysForEachAirline(string origin, string destination)
         {
@@ -14,11 +15,13 @@ namespace AirlineDelays
 
             bool first = true;
             string line = "";
+
             string airlineCodeOfCurrent = "";
             int maxDelay = 0;
             int totalArrivalDelay = 0;
             int flightTotalForCurrentAirline = 0;
             int avgArrivalDelay = 0;
+
             List<Airline> airlinesOnRoute = new List<Airline>();
 
             while ((line = myFile.ReadLine()) != null)
@@ -40,38 +43,43 @@ namespace AirlineDelays
             myFile.Close();
 
 
-            if (airlinesOnRoute.Count == 0) Console.WriteLine("There are no flights on this route.");
-
-            Console.WriteLine("\nThere a total of {0} flights along this route.", airlinesOnRoute.Count);
-            Console.WriteLine("Below is the break down of these flights according to airline.\n");
-
-            foreach (Airline item in airlinesOnRoute)
+            if (airlinesOnRoute.Count == 0)
             {
-                //Get the first airline 
-                if (airlineCodeOfCurrent == "") airlineCodeOfCurrent = item.airlineCode;
+                Console.WriteLine("There are no flights on this route.");
+                return;
+            }
 
-                //Get the max delay first time
-                if (maxDelay == 0) maxDelay = item.arrivalDelay;
+                Console.WriteLine("\nThere a total of {0} flights along this route.", airlinesOnRoute.Count);
+                Console.WriteLine("Below is the break down of these flights according to airline:\n");
 
-                totalArrivalDelay += item.arrivalDelay;
-                if (item.arrivalDelay > maxDelay) maxDelay = item.arrivalDelay;
-                flightTotalForCurrentAirline++;
-
-                // If the index moves to the next airline or this was the last item in the list
-                // report the data related to the previous airline and clear variables
-                if (airlineCodeOfCurrent != item.airlineCode || item.Equals(airlinesOnRoute[airlinesOnRoute.Count - 1]))
+                foreach (Airline item in airlinesOnRoute)
                 {
-                    if (flightTotalForCurrentAirline != 0) avgArrivalDelay = totalArrivalDelay / flightTotalForCurrentAirline;
+                    //Get the first airline 
+                    if (airlineCodeOfCurrent == "") airlineCodeOfCurrent = item.airlineCode;
 
-                    Console.WriteLine("There were {0} flights between these airports for airline {1}. \n The average delay for this airline is {2} minutes. \n The maximum delay for this airline is {3} minutes. \n\n"
-                        , flightTotalForCurrentAirline, airlineCodeOfCurrent, avgArrivalDelay, maxDelay);
+                    //Get the max delay first time
+                    if (maxDelay == 0) maxDelay = item.arrivalDelay;
+                    if (item.arrivalDelay > maxDelay) maxDelay = item.arrivalDelay;
 
-                    totalArrivalDelay = 0;
-                    flightTotalForCurrentAirline = 0;
-                    maxDelay = 0;
-                    airlineCodeOfCurrent = item.airlineCode;
+                    totalArrivalDelay += item.arrivalDelay;                    
+                    flightTotalForCurrentAirline++;
+
+                    // If the iterator moves to the next airline or this was the last item in the list
+                    // report the data related to the previous airline and clear variables
+                    if (airlineCodeOfCurrent != item.airlineCode || item.Equals(airlinesOnRoute[airlinesOnRoute.Count - 1]))
+                    {
+                        if (flightTotalForCurrentAirline != 0) avgArrivalDelay = totalArrivalDelay / flightTotalForCurrentAirline;
+
+                        Console.WriteLine("There were {0} flights between these airports for airline {1}. \n The average delay for this airline is {2} minutes. \n The maximum delay for this airline is {3} minutes. \n\n"
+                            , flightTotalForCurrentAirline, airlineCodeOfCurrent, avgArrivalDelay, maxDelay);
+
+                        totalArrivalDelay = 0;
+                        flightTotalForCurrentAirline = 0;
+                        maxDelay = 0;
+                        airlineCodeOfCurrent = item.airlineCode;
                 }
-            }            
+                }
+                    
         }
 
         
@@ -121,19 +129,17 @@ namespace AirlineDelays
                 item.calcAvgArrivalDelay();
             }
 
-            
-            Airport worstAirportToFlyFrom = new Airport();
-            Airport worstAirportToFlyTo = new Airport();
+            List<Airport> worstAirportToFlyFrom = airports.OrderByDescending(a => a.avgDepartureDelay).ToList();
+            List<Airport> worstAirportToFlyTo = airports.OrderByDescending(a => a.avgArrivalDelay).ToList();
 
-            worstAirportToFlyFrom = airports.MaxBy(a => a.avgDepartureDelay);
-            worstAirportToFlyTo = airports.MaxBy(a => a.avgArrivalDelay);
 
             Console.WriteLine("The worst airport to fly from is {0} with an average departure delay of {1}.",
-                worstAirportToFlyFrom.AirportName, worstAirportToFlyFrom.avgDepartureDelay);
+                worstAirportToFlyFrom.First().AirportName, worstAirportToFlyFrom.First().avgDepartureDelay);
             Console.WriteLine("The worst airport to fly to is {0} with an average arrival delay of {1}.",
-                worstAirportToFlyTo.AirportName, worstAirportToFlyTo.avgArrivalDelay);
+                worstAirportToFlyTo.First().AirportName, worstAirportToFlyTo.First().avgArrivalDelay);
 
         }
+
 
         static void Main(string[] args)
         {
