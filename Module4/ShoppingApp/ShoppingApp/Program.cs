@@ -9,25 +9,6 @@ namespace ShoppingApp
 {
     class Program
     {
-        static string[] ReadCatalogFromFile()
-        {
-            string[] catalog = new string[200];
-            int current = 0;
-
-            StreamReader reader = new StreamReader("catalog.txt");
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                catalog[current] = line;
-                
-                current = current + 1;
-                if (current >= 200)
-                    break;
-            }
-
-            return catalog;
-        }
-
         static bool IsProductInCatalog(string product, string[] catalog)
         {
             foreach (string productInCatalog in catalog)
@@ -42,7 +23,7 @@ namespace ShoppingApp
         {
             Console.WriteLine("*** Hello! Welcome to the shopping application. ***");
 
-            string[] catalog = ReadCatalogFromFile();
+            string[] catalog = File.ReadAllLines("catalog.txt");
 
             string[] cart = new string[5];
             
