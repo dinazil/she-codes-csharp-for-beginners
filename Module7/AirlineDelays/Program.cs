@@ -12,7 +12,7 @@ namespace AirlineDelays
     {
         static void Main(string[] args)
         {
-            List<FlightInfo> flights = FlightInfo.ReadFlightsFromFile(@"C:\Users\Sasha\Downloads\airline-on-time-performance-sep2014-us.csv");
+            List<FlightInfo> flights = FlightInfo.ReadFlightsFromFile("airline-on-time-performance-sep2014-us.csv");
 
             var query1 = from flight in flights
                          where flight.Origin == "Boston MA"
