@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rational.cs" />
     <Compile Include="ShoppingCart.cs" />
-    <Compile Include="SunTimes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

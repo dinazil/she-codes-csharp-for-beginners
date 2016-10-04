@@ -10,8 +10,10 @@ namespace PracticeQuestions
     {
         static void Main(string[] args)
         {
-            SunTimes times = new SunTimes(DateTime.Now.AddHours(-2), DateTime.Now.AddHours(8));
-            Console.WriteLine("Daylight minutes: " + times.DaylightMinutes());
+            Rational rational = new Rational(1, 3);
+            Rational another = new Rational(1, 2);
+            rational.Add(another);
+            Console.WriteLine("Sum: " + rational.Numerator + "/" + rational.Denominator);
 
             ShoppingCart cart = new ShoppingCart();
             cart.AddProduct(1400);
