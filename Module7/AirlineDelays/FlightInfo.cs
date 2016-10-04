@@ -37,24 +37,16 @@ namespace AirlineDelays
         public static List<FlightInfo> ReadFlightsFromFile(string fileName)
         {
             List<FlightInfo> flights = new List<FlightInfo>();
-            bool first = true;
-            using (var reader = new StreamReader(fileName))
+            string[] lines = File.ReadAllLines(fileName);
+            for (int i = 1; i < lines.Length; ++i)
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (first)
-                    {
-                        first = false;
-                        continue;
-                    }
+                string line = lines[i];
 
-                    string[] parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length != 7)
-                        continue;
+                string[] parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 7)
+                    continue;
 
-                    flights.Add(new FlightInfo(parts));
-                }
+                flights.Add(new FlightInfo(parts));
             }
             return flights;
         }
