@@ -83,11 +83,10 @@ namespace AirlineDelays
         static void FindWorstAirports()
         {
             List<Airport> airports = new List<Airport>();
-            StreamReader file = new StreamReader(AirlinePerformanceFileName);
-            file.ReadLine(); // Skip the first line
-            string line;
-            while ((line = file.ReadLine()) != null)
+            string[] lines = File.ReadAllLines(AirlinePerformanceFileName);
+            for (int i = 1; i < lines.Length; ++i)
             {
+                string line = lines[i];
                 string[] parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length != 7)
                     continue;
@@ -110,8 +109,6 @@ namespace AirlineDelays
                 airports.Find(x => x.AirportName == arrivalAirport.AirportName).TotalArrivalDelay += int.Parse(parts[4]);
                 airports.Find(x => x.AirportName == arrivalAirport.AirportName).ArrivalFlightCount++;
             }
-            file.Close();
-
 
             List<Airport> worstAirportToFlyFrom = airports.OrderByDescending(a => a.AverageDepartureDelay).ToList();
             List<Airport> worstAirportToFlyTo = airports.OrderByDescending(a => a.AverageArrivalDelay).ToList();
